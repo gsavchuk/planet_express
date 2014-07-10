@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  match "static" => "application#static"
+  get 'static' => "application#static"
   root to: 'application#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
