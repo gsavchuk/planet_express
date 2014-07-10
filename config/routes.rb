@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  get 'static' => "application#static"
-  root to: 'application#index'
+  root 'application#index'
+  get 'static' => 'application#static'
+  resources :crew
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
