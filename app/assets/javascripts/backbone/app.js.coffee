@@ -1,9 +1,9 @@
 @PlanetExpress = do (Backbone, Marionette) ->
   App = new Marionette.Application
 
-  App.on 'initialize:before', (options) ->
-    @console.log('ddddddddddd')
-    App.environment = options
+  App.on 'before:start', (options) ->
+    console.log options
+    App.environment = options.environment
 
   App.addRegions
     headerRegion: "#header-region"
@@ -16,7 +16,7 @@
     App.module("HeaderApp").start()
     App.module("FooterApp").start()
 
-  App.on 'initialize:after', ->
+  App.on 'start', ->
     @startHistory()
     @navigate(@rootRoute, trigger: true) unless @getCurrentRoute()
 
