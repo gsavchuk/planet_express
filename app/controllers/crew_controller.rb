@@ -4,7 +4,7 @@ class CrewController < ApplicationController
   protect_from_forgery with: :exception
 
   def index
-    @crew = nil
+    @crew = Crew.all
   end
 
   def show

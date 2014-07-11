@@ -2,7 +2,6 @@
   App = new Marionette.Application
 
   App.on 'before:start', (options) ->
-    console.log options
     App.environment = options.environment
 
   App.addRegions
