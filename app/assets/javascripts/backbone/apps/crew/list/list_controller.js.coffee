@@ -9,14 +9,18 @@
       @layout.on 'show', =>
         @titleRegion()
         @panelRegion()
-        @newRegion()
         @crewRegion crew
 
       App.mainRegion.show @layout
 
     newRegion: ->
-      newView = @getNewView()
-      @layout.newRegion.show newView
+      region = @layout.newRegion
+      newView = App.request 'new:crew:member:view'
+
+      newView.on 'form:cancel:button:clicked', =>
+        region.empty()
+
+      region.show newView
 
     titleRegion: ->
       titleView = @getTitleView()
@@ -24,6 +28,10 @@
 
     panelRegion: ->
       panelView = @getPanelView()
+
+      panelView.on 'new:crew:button:clicked', =>
+        @newRegion()
+
       @layout.panelRegion.show panelView
 
     crewRegion: (crew) ->
@@ -33,9 +41,6 @@
     getCrewView: (crew) ->
       new List.Crew
         collection: crew
-
-    getNewView: ->
-      new List.New
 
     getPanelView: ->
       new List.Panel
