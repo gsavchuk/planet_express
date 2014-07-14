@@ -2,9 +2,12 @@
 
   Edit.Controller =
 
-    edit: (crew) ->
-      editView = @getEditView crew
-      App.mainRegion.show editView
+    edit: (id, crew) ->
+      crew or= App.request 'crew:entity', id
+
+      App.execute 'when:fetched', crew, =>
+        editView = @getEditView crew
+        App.mainRegion.show editView
 
     getEditView: (crew) ->
       new Edit.Crew

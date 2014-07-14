@@ -4,14 +4,16 @@
 
     list: ->
       crew = App.request 'crew:entities'
-      @layout = @getLayoutView()
 
-      @layout.on 'show', =>
-        @titleRegion()
-        @panelRegion()
-        @crewRegion crew
+      App.execute 'when:fetched', crew, =>
+        @layout = @getLayoutView()
 
-      App.mainRegion.show @layout
+        @layout.on 'show', =>
+          @titleRegion()
+          @panelRegion()
+          @crewRegion crew
+
+        App.mainRegion.show @layout
 
     newRegion: ->
       region = @layout.newRegion

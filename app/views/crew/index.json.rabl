@@ -1,3 +1,3 @@
 collection @crew
 
-attributes :id, :age, :name, :avatar, :title, :species, :origin
+extends 'crew/_base'
