@@ -7,14 +7,25 @@
 
       @formLayout = @getFormLayout options.config
 
-      @formLayout.on 'show', =>
-        @formContentRegion()
+      @listenTo @formLayout, 'show', @formContentRegion
+      @listenTo @formLayout, 'destroy', @destroy
+
+    onDestroy: ->
+      console.log 'onDestroy', @
 
     formContentRegion: ->
       @formLayout.formContentRegion.show @contentView
 
-    getFormLayout: (config = {}) ->
+    getFormLayout: (options = {}) ->
+      config = @getDefaultConfig _.result(@contentView, 'form')
+
       new Form.FormWrapper
+        config: config
+
+    getDefaultConfig: (config = {}) ->
+      _.defaults config,
+        footer: true
+        focusFirstInput: true
 
   App.reqres.setHandler 'form:wrapper', (contentView, options = {}) ->
     formController = new Form.Controller
