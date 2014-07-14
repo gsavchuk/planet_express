@@ -4,7 +4,6 @@ class CrewController < ApplicationController
   protect_from_forgery with: :exception
 
   def index
-    sleep 5
     @crew = Crew.all
   end
 
