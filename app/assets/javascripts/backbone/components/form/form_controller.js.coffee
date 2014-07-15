@@ -13,11 +13,14 @@
 
     formSubmit: ->
       data = Backbone.Syphon.serialize @formLayout
-      model = @contentView.model
-      @processFormSubmit data, model
+      if @contentView.triggerMethod('form:submit', data) isnt false
+        model = @contentView.model
+        collection = @contentView.collection
+        @processFormSubmit data, model, collection
 
-    processFormSubmit: (data, model) ->
-      model.save data
+    processFormSubmit: (data, model, collection) ->
+      model.save data,
+        collection: collection
 
     onDestroy: ->
       console.log 'onDestroy', @
@@ -40,6 +43,7 @@
       _.defaults config,
         footer: true
         focusFirstInput: true
+        errors: true
 
     getButtons: (buttons = {}) ->
       App.request('form:button:entities', buttons, @contentView.model) unless buttons is false

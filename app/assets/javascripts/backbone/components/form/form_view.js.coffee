@@ -19,6 +19,9 @@
     triggers:
       'submit': 'form:submit'
 
+    modelEvents:
+      'change:_errors': 'changeErrors'
+
     initialize: ->
       @setInstancePropertiesFor 'config', 'buttons'
 
@@ -39,3 +42,16 @@
 
     getFormDataType: ->
       if @model.isNew() then 'new' else 'edit'
+
+    changeErrors: (model, errors, options) ->
+      if @config.errors
+        @addErrors errors
+
+    addErrors: (errors = {}) ->
+      for name, array of errors
+        @addError name, array[0]
+
+    addError: (name, error) ->
+      el = @$("[name='#{name}']")
+      sm = $('<small>').text error
+      el.after(sm).closest('.row').addClass 'error'
