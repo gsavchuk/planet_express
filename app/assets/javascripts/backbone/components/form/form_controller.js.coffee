@@ -9,6 +9,15 @@
 
       @listenTo @formLayout, 'show', @formContentRegion
       @listenTo @formLayout, 'destroy', @destroy
+      @listenTo @formLayout, 'form:submit', @formSubmit
+
+    formSubmit: ->
+      data = Backbone.Syphon.serialize @formLayout
+      model = @contentView.model
+      @processFormSubmit data, model
+
+    processFormSubmit: (data, model) ->
+      model.save data
 
     onDestroy: ->
       console.log 'onDestroy', @
@@ -18,6 +27,7 @@
 
     getFormLayout: (options = {}) ->
       config = @getDefaultConfig _.result(@contentView, 'form')
+      _.extend config, options
 
       buttons = @getButtons config.buttons
 

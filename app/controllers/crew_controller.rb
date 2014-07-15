@@ -1,7 +1,5 @@
 class CrewController < ApplicationController
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+  respond_to :json
 
   def index
     @crew = Crew.all
@@ -13,13 +11,17 @@ class CrewController < ApplicationController
   end
 
   def update
+    @member = Crew.find params[:id]
+    if @member.update_attributes crew_params
+      render 'crew/show'
+    else
+      respond_with @member
+    end
   end
 
-  def create
+  private
 
-  end
-
-  def destroy
-
+  def crew_params
+    params.require(:crew).permit(:age, :name, :avatar, :title, :species, :origin, :quote)
   end
 end
