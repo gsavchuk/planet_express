@@ -10,4 +10,4 @@
     template: 'crew/edit/edit_crew'
 
     form:
-      focusFirstInput: false
+      buttons: false
