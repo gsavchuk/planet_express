@@ -25,9 +25,7 @@
 
     triggers:
       'click .crew-delete button' : 'crew:delete:clicked'
-
-    events:
-      'click' : -> @trigger 'crew:member:clicked', @model
+      'click'                     : 'crew:member:clicked'
 
   class List.Empty extends App.Views.ItemView
     template: 'crew/list/_empty'
