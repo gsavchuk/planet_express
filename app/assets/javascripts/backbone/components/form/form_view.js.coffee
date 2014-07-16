@@ -17,7 +17,8 @@
       buttonContainer: 'ul.inline-list'
 
     triggers:
-      'submit': 'form:submit'
+      'submit'                           : 'form:submit'
+      'click [data-form-button="cancel"]': 'form:cancel'
 
     modelEvents:
       'change:_errors': 'changeErrors'

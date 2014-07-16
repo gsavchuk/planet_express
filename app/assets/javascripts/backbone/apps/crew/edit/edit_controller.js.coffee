@@ -22,6 +22,9 @@
     formRegion: (crew) ->
       editView = @getEditView crew
 
+      editView.on 'form:cancel', ->
+        App.vent.trigger 'crew:cancelled', crew
+
       formView = App.request 'form:wrapper', editView
 
       @layout.formRegion.show formView
