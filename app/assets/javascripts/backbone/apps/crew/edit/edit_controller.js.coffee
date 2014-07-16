@@ -6,6 +6,9 @@
       crew or= App.request 'crew:entity', id
       crew.on 'all', (e) -> console.log e
 
+      crew.on 'updated', ->
+        App.vent.trigger 'crew:updated', crew
+
       App.execute 'when:fetched', crew, =>
         @layout = @getLayoutView crew
 
