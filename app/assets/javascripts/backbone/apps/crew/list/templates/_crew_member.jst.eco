@@ -49,3 +49,9 @@
         </div>
     </div>
 </li>
+<div class="crew-delete">
+    <button class="button secondary tiny radius">
+        <i class="general-enclosed foundicon-remove"></i>
+        Delete
+    </button>
+</div>

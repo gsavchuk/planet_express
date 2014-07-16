@@ -1,8 +1,15 @@
 @PlanetExpress.module "Entities", (Entities, App, Backbone, Marionette, $, _) ->
-	
+
 	class Entities.Model extends Backbone.Model
-		
-		save: (data, options = {}) ->
+
+    destroy: (options = {}) ->
+      _.defaults options,
+        wait: true
+
+      @set _destroy: true
+      super options
+
+    save: (data, options = {}) ->
       isNew = @isNew()
       _.defaults options,
         wait: true
@@ -26,3 +33,4 @@
     saveError: (model, xhr, options) =>
       console.warn xhr, model
       @set _errors: $.parseJSON(xhr.responseText)?.errors unless xhr.status is 500 or xhr.status is 404
+
