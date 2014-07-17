@@ -12,7 +12,7 @@
       formView = App.request 'form:wrapper', newView
 
       @listenTo newView, 'form:cancel', =>
-        @region.destroy()
+        @region.empty()
 
       @show formView
 
