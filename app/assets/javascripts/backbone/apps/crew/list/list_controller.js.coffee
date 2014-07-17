@@ -1,28 +1,26 @@
 @PlanetExpress.module 'CrewApp.List', (List, App, Backbone, Marionette, $, _) ->
 
-  List.Controller =
+  class List.Controller extends App.Controllers.Base
 
-    list: ->
+    initialize: ->
+      window.c = @
       crew = App.request 'crew:entities'
 
       App.execute 'when:fetched', crew, =>
-        @layout = @getLayoutView()
+        @layout = @getLayoutView crew
 
-        @layout.on 'show', =>
+        @listenTo @layout, 'show', =>
           @titleRegion()
           @panelRegion()
           @crewRegion crew
 
-        App.mainRegion.show @layout
+        @show @layout
+
+    onDestroy: ->
+      console.info "closing controller!"
 
     newRegion: ->
-      region = @layout.newRegion
-      newView = App.request 'new:crew:member:view'
-
-      newView.on 'form:cancel', =>
-        region.empty()
-
-      region.show newView
+      App.execute "new:crew:member", @layout.newRegion
 
     titleRegion: ->
       titleView = @getTitleView()
@@ -31,7 +29,7 @@
     panelRegion: ->
       panelView = @getPanelView()
 
-      panelView.on 'new:crew:button:clicked', =>
+      @listenTo panelView, 'new:crew:button:clicked', =>
         @newRegion()
 
       @layout.panelRegion.show panelView
@@ -39,10 +37,10 @@
     crewRegion: (crew) ->
       crewView = @getCrewView crew
 
-      crewView.on 'childview:crew:member:clicked', (child, args) ->
+      @listenTo crewView, 'childview:crew:member:clicked', (child, args) ->
         App.vent.trigger 'crew:member:clicked', args.model
 
-      crewView.on 'childview:crew:delete:clicked', (child, args) ->
+      @listenTo crewView, 'childview:crew:delete:clicked', (child, args) ->
         model = args.model
         if confirm "Are you sure you want to delete #{model.get("name")}?" then model.destroy() else false
 
@@ -58,5 +56,6 @@
     getTitleView: ->
       new List.Title
 
-    getLayoutView: ->
+    getLayoutView: (crew) ->
       new List.Layout
+        collection: crew

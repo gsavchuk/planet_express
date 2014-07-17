@@ -1,17 +1,21 @@
 @PlanetExpress.module 'CrewApp.New', (New, App, Backbone, Marionette, $, _) ->
 
-  New.Controller =
-    newCrew: ->
+  class New.Controller extends App.Controllers.Base
+
+    initialize: ->
       crew = App.request 'new:crew:entity'
 
-      crew.on 'created', ->
+      @listenTo crew, 'created', ->
         App.vent.trigger 'crew:created', crew
 
       newView = @getNewView crew
+      formView = App.request 'form:wrapper', newView
 
-      App.request 'form:wrapper', newView
+      @listenTo newView, 'form:cancel', =>
+        @region.destroy()
+
+      @show formView
 
     getNewView: (crew) ->
       new New.Crew
         model: crew
-

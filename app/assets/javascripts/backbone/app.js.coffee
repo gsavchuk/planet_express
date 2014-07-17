@@ -15,6 +15,9 @@
     App.module("HeaderApp").start()
     App.module("FooterApp").start()
 
+  App.reqres.setHandler "default:region", ->
+    App.mainRegion
+
   App.on 'start', ->
     @startHistory()
     @navigate(@rootRoute, trigger: true) unless @getCurrentRoute()
